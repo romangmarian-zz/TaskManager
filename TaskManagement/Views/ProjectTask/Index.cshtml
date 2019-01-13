@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Lista Taskuri @ViewBag.EventId";
+}
+
+<h2>Index</h2>
+
+@foreach (TaskManagement.Models.ProjectTask task in ViewBag.Tasks)
+{
+    <h3>@task.Title</h3>
+    <h4>@task.Description</h4>
+    <h4>@task.StartDate</h4>
+    <h4>@task.Deadline</h4>
+    <h4>@task.Assignee.UserName</h4>
+}
+
+<a href="/ProjectTask/Create">Create a new task</a>
+

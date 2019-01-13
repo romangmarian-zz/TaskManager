@@ -200,6 +200,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ProjectTaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,7 +208,6 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ProjectShowViewModel.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectTask.cs" />
     <Compile Include="Models\ProjectUsersViewModel.cs" />
@@ -278,6 +278,7 @@
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\AddMember.cshtml" />
     <Content Include="Views\Project\Show.cshtml" />
+    <Content Include="Views\ProjectTask\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

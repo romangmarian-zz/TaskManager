@@ -123,12 +123,7 @@ namespace TaskManagement.Controllers
 
         public ActionResult Show(int id)
         {
-            var viewModel = new ProjectShowViewModel();
-            viewModel.ProjectId = id;
             var project = context.Projects.Find(id);
-            viewModel.Members = project.Members;
-            viewModel.Tasks = project.Tasks;
-
             return View(project);
         }
 
@@ -161,7 +156,7 @@ namespace TaskManagement.Controllers
                             context.SaveChanges();
                             TempData["message"] = "Member added successfuly";
                         }
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Show", new {  id = projectUser.ProjectId });
                     }
                     else
                     {

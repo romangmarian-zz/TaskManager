@@ -16,11 +16,16 @@
 
     <br/>
 
-    <form method="post" action="/Project/Edit/@project.Id">
-        @Html.HttpMethodOverride(HttpVerbs.Put)
+    <form method="get" action="/Project/Edit/@project.Id">
         <button type="submit">Edit</button>
+    </form>
+
+    <br/>
+
+    <form method="post" action="/Project/Show/@project.Id">
+        <button type="submit">Show</button>
     </form>
 }
 
 <br />
-<a class="btn-success" href="/Product/New"">Create new project</a>
+<a class="btn-success" href="/Project/Create">Create new project</a>
