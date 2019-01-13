@@ -67,7 +67,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
-        public ActionResult Edit(int id,Project editedProject)
+        public ActionResult Edit(int id, Project editedProject)
         {
             try
             {

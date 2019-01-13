@@ -1,0 +1,29 @@
+﻿@model TaskManagement.Models.ProjectTask
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form method="post" action="/ProjectTask/Edit/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.AssigneeID)
+    @Html.HiddenFor(m => m.StartDate)
+    @Html.HiddenFor(m => m.Status)
+    <br/>
+    @Html.Label("Titile", "Task Title")
+    <br/>
+    @Html.EditorFor(m => m.Title)
+    <br /><br/>
+    @Html.Label("Titile", "Task Title")
+    <br />
+    @Html.EditorFor(m => m.Description)
+    <br/><br/>
+    @Html.Label("Deadline", "Task Deadline")
+    <br/>
+    @Html.EditorFor(m => m.Deadline)
+    <br/><br/>
+    <button class="btn btn-sm btn-success" >Edit Task</button>
+
+</form>
