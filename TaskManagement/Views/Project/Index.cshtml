@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Your Projects</h2>
+
+@foreach (TaskManagement.Models.Project project in ViewBag.Projects)
+{
+    <h3>@project.Title</h3>
+    <h4>@project.Description</h4>
+
+    <form method="post" action="/Project/Delete/@project.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button type="submit">Delete</button>
+    </form>
+
+    <br/>
+
+    <form method="post" action="/Project/Edit/@project.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <button type="submit">Edit</button>
+    </form>
+}
+
+<br />
+<a class="btn-success" href="/Product/New"">Create new project</a>

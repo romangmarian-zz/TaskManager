@@ -1,0 +1,36 @@
+﻿@model TaskManagement.Models.Project
+@{
+    ViewBag.Title = "Show Project";
+}
+
+<h2>Project Details</h2>
+
+<h3>@Model.Title</h3>
+<h4>@Model.Description</h4>
+<h4>@ViewBag.Organizer</h4>
+
+<h4>Tasks</h4>
+@foreach (TaskManagement.Models.ProjectTask task in Model.Tasks)
+{
+    <h5><a href="/Task/Show/@task.Id">@task.Title</a></h5>
+    <form method="post" action="/ProjectTask/Edit/@task.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <button type="submit">Edit</button>
+    </form>
+
+    <form method="post" action="/ProjectTask/Delete/@task.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button type="submit">Delete</button>
+    </form>
+    <br/>
+}
+<a class="btn-success" href="/ProjectTask/Create/@Model.Id">Add Task</a>
+
+<h4>Members</h4>
+@foreach (TaskManagement.Models.ApplicationUser member in Model.Members)
+{
+    <h5>@member.UserName</h5>
+}
+
+<a class="btn-success" href="/Project/AddMember/@Model.Id">Add Member</a>
+

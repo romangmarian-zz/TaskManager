@@ -1,0 +1,14 @@
+﻿@model TaskManagement.Models.ProjectUsersViewModel
+@{
+    ViewBag.Title = "AddMember";
+}
+
+<h2>Add Member</h2>
+<form method="post" action="/Project/AddMember">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.LabelFor(m => m.SelectedUserId)
+    @Html.DropDownListFor(m => m.SelectedUserId, Model.UsersSelect)
+    @Html.HiddenFor(m => m.ProjectId)
+
+    <button class="btn btn-sm btn-success" type="submit">Add Member</button>
+</form>
