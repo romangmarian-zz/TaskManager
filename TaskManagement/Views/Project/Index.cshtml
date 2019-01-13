@@ -4,7 +4,17 @@
 
 <h2>Projects Dashboard</h2>
 
+@if (!ViewBag.ProjectsIsEmpty)
+{
+<div class="alert alert-warning alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>Holy guacamole!</strong> Best check yo self, you're not taking part of any project.
+</div>
 
+}
+
+else
+{
 <table class="table">
 
     <tr>
@@ -16,35 +26,59 @@
         </th>
     </tr>
 
-    @foreach (TaskManagement.Models.Project project in ViewBag.Projects)
-    {
-        <tr>
-            <td>
-                <strong>@project.Title</strong>
-                <br>
-                <br />
-                @project.Description
-            </td>
-            <td>
-                <div style='display:inline !important;'>
-                    <form method="get" action="/Project/Edit/@project.Id">
-                        <button type="submit"class="btn btn-secondary">Edit</button>
-                    </form>
-                    <form method="post" action="/Project/Show/@project.Id">
-                        <button type="submit" class="btn btn-secondary">Project Details</button>
-                    </form>
-                    <form method="post" action="/Project/Delete/@project.Id">
-                        @Html.HttpMethodOverride(HttpVerbs.Delete)
-                        <button type="submit" class="btn btn-secondary">Delete</button>
-                    </form>
-                </div>
-            </td>
-        </tr>
-    }
+        @foreach (TaskManagement.Models.Project project in ViewBag.Projects)
+
+        {
+            <tr>
+                <td>
+                    @{
+                        if (project.OrganizerId == ViewBag.UserId)
+                        {
+                            <span class="label label-danger">Organizer</span>
+
+                        }
+                        else
+                        {
+                            <span class="label label-success">Member</span>
+                        }
+                    }
+                    <strong>@project.Title</strong>
+                    <br>
+                    <br />
+                    @project.Description
+                </td>
+                <td>
+                    @if(project.OrganizerId == ViewBag.UserId){
+                    <div style='display:inline !important;'>
+                        <form method="get" action="/Project/Edit/@project.Id">
+                            <button type="submit" class="btn btn-secondary">Edit</button>
+                        </form>
+                        <form method="post" action="/Project/Show/@project.Id">
+                            <button type="submit" class="btn btn-secondary">Project Details</button>
+                        </form>
+                        <form method="post" action="/Project/Delete/@project.Id">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button type="submit" class="btn btn-secondary">Delete</button>
+                        </form>
+                    </div>
+                    }
+
+                    else{
+                    <div style='display:inline !important;'> 
+                        
+                        <form method="post" action="/Project/Show/@project.Id">
+                            <button style="margin-top:30px;" type="submit" class="btn btn-secondary">Project Details</button>
+                        </form>
+                    </div>
+                    
+                    
+                    }
+                </td>
+            </tr>
+
+                       }
 </table>
+ }
 <br />
-@if (User.IsInRole("Administrator") || User.IsInRole("User"))
-{
-    <div align="center"><a href="/project/create"><button type="button" class="btn btn-primary">Create new!</button></a></div>
-}
+<div align="center"><a href="/project/create"><button type="button" class="btn btn-primary">Create new! &#x1F680;</button></a></div>
 

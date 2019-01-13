@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,35 +12,92 @@ namespace TaskManagement.Controllers
 {
     public class ProjectController : Controller
     {
-        private ApplicationDbContext context = ApplicationDbContext.Create();
+        private ApplicationDbContext context;
+        private ApplicationUserManager _userManager;
+
+        
+
+        public ProjectController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ProjectController()
+        {
+            context = new ApplicationDbContext();
+
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            context.Dispose();
+        }
 
         // GET: Project
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Index()
         {
-            ViewBag.Projects = context.Projects;
+
+            ViewBag.UserId = User.Identity.GetUserId();
+            var _list = context.Projects.ToList().Where(p =>
+            p.Members.Select(m => m.Id).ToList().Contains(ViewBag.UserId) || p.OrganizerId == ViewBag.UserId);
+            ViewBag.Projects = _list;
+            _list = _list.ToList();
+
+            ViewBag.ProjectsIsEmpty = _list.Any();
             return View();
         }
 
         // Get: Project/Create
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Create()
         {
-            Project project = new Project();
-            project.OrganizerId = User.Identity.GetUserId();
+            Project project = new Project
+            {
+                OrganizerId = User.Identity.GetUserId()
+            };
             return View(project);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Create(Project project)
         {
             project.OrganizerId = User.Identity.GetUserId();
             project.Organizer = context.Users.Find(project.OrganizerId);
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var _user = context.Users.Find(User.Identity.GetUserId());
             try
             {
                 if (ModelState.IsValid)
                 {
                     context.Projects.Add(project);
-                    context.SaveChanges();
                     TempData["message"] = "Proiectul a fost creat";
+                    context.SaveChanges();
+
+                    if (User.IsInRole("User"))
+                    {
+                        UserManager.RemoveFromRole(_user.Id, "User");
+                        UserManager.AddToRole(_user.Id, "Organizator");
+                        context.SaveChanges();
+                        Request.GetOwinContext().Authentication.SignOut();
+                    }
+
+                    
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -52,6 +111,7 @@ namespace TaskManagement.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Edit(int id)
         {
             Project project = context.Projects.Find(id);
@@ -67,6 +127,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Edit(int id,Project editedProject)
         {
             try
@@ -104,6 +165,7 @@ namespace TaskManagement.Controllers
         }
         
         [HttpDelete]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Delete(int id)
         {
             Project project = context.Projects.Find(id);
@@ -121,12 +183,14 @@ namespace TaskManagement.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Show(int id)
         {
             var project = context.Projects.Find(id);
             return View(project);
         }
 
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult AddMember(int id)
         {
             var model = new ProjectUsersViewModel
@@ -138,6 +202,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult AddMember(ProjectUsersViewModel projectUser)
         {
 
