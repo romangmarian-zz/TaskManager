@@ -40,7 +40,7 @@
                     }
                     @if (User.IsInRole("Administrator") || User.IsInRole("Organizator") || User.IsInRole("User"))
                     {
-                        <li>@Html.ActionLink("Event Dashboard", "Index", "Project")</li>
+                        <li>@Html.ActionLink("Projects Dashboard", "Index", "Project")</li>
                     }
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     </ul>
