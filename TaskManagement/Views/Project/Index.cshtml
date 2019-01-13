@@ -2,30 +2,49 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Your Projects</h2>
+<h2>Projects Dashboard</h2>
 
-@foreach (TaskManagement.Models.Project project in ViewBag.Projects)
+
+<table class="table">
+
+    <tr>
+        <th>
+            <h3> Project </h3>
+        </th>
+        <th>
+            <h3> Actions</h3>
+        </th>
+    </tr>
+
+    @foreach (TaskManagement.Models.Project project in ViewBag.Projects)
+    {
+        <tr>
+            <td>
+                <strong>@project.Title</strong>
+                <br>
+                <br />
+                @project.Description
+            </td>
+            <td>
+                <div style='display:inline !important;'>
+                    <form method="get" action="/Project/Edit/@project.Id">
+                        <button type="submit"class="btn btn-secondary">Edit</button>
+                    </form>
+                    <form method="post" action="/Project/Show/@project.Id">
+                        <button type="submit" class="btn btn-secondary">Project Details</button>
+                    </form>
+                    <form method="post" action="/Project/Delete/@project.Id">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="submit" class="btn btn-secondary">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+<br />
+@if (User.IsInRole("Administrator") || User.IsInRole("User"))
 {
-    <h3>@project.Title</h3>
-    <h4>@project.Description</h4>
-
-    <form method="post" action="/Project/Delete/@project.Id">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Delete</button>
-    </form>
-
-    <br/>
-
-    <form method="get" action="/Project/Edit/@project.Id">
-        <button type="submit">Edit</button>
-    </form>
-
-    <br/>
-
-    <form method="post" action="/Project/Show/@project.Id">
-        <button type="submit">Show</button>
-    </form>
+    <div align="center"><a href="/project/create"><button type="button" class="btn btn-primary">Create new!</button></a></div>
 }
 
-<br />
-<a class="btn-success" href="/Project/Create">Create new project</a>
