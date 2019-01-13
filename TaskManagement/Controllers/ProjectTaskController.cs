@@ -215,8 +215,7 @@ namespace TaskManagement.Controllers
             listItems.Add(new SelectListItem
             {
                 Text = "In Review",
-                Value = "In Review",
-                Selected = true
+                Value = "In Review"
             });
             listItems.Add(new SelectListItem
             {
