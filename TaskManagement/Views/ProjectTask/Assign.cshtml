@@ -1,0 +1,14 @@
+﻿@model TaskManagement.Models.TaskAssigneeViewModel
+@{
+    ViewBag.Title = "Assign Task";
+}
+<h2>Assign</h2>
+
+<form method="post" action="/ProjectTask/Assign">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.LabelFor(m => m.AssigneeId)
+    @Html.DropDownListFor(m => m.AssigneeId, Model.MembersSelect)
+    @Html.HiddenFor(m => m.TaskId)
+
+    <button class="btn btn-sm btn-success" type="submit">Add Member</button>
+</form>

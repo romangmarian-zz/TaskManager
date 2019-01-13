@@ -1,0 +1,60 @@
+﻿@model TaskManagement.Models.ProjectTask
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>@Model.Title</h2>
+<h4>Project: @ViewBag.ProjectTitle</h4>
+<h4>@Model.Description</h4>
+<h4>@Model.StartDate</h4>
+<h4>@Model.Deadline</h4>
+    @{
+        if (Model.Assignee != null)
+        {
+            <h4>Assignee: @Model.Assignee.UserName</h4>
+        }
+        else
+        {
+            <h4>Unassigned</h4>
+        }
+    }
+
+<form method="post" action="/ProjectTask/UpdateStatus/@Model.Id">
+    <button class="btn btn-sm btn-success" type="submit">Update Status</button>
+</form>
+
+<form method="post" action="/ProjectTask/Index/@Model.ProjectId">
+    <button class="btn btn-sm btn-success" type="submit">Index</button>
+</form>
+
+<form method="post" action="/ProjectTask/Edit/@Model.Id">
+    <button class="btn btn-sm btn-success" type="submit">Edit</button>
+</form>
+
+<form method="post" action="/ProjectTask/Delete/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button class="btn btn-sm btn-success" type="submit">Delete</button>
+</form>
+
+@foreach(TaskManagement.Models.Comment comment in Model.Comments)
+{
+    <h5>comment.Message</h5>
+    <h6>comment.Author.UserName</h6>
+    <h6>comment.PostedAt</h6>
+
+    <form method="post" action="/Comment/Edit/@comment.Id">
+        <button class="btn btn-sm btn-success" type="submit">Edit</button>
+    </form>
+
+    <form method="post" action="/Comment/Delete/@comment.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button class="btn btn-sm btn-success" type="submit">Delete</button>
+    </form>
+}
+
+<br/><br/>
+<form method="post" action="/Comment/Create/@Model.Id">
+    <button class="btn btn-sm btn-success" type="submit">Add Comment</button>
+</form>
+
+
