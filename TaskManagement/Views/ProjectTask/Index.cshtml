@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Lista Taskuri @ViewBag.EventId";
+    ViewBag.Title = "Lista Taskuri";
 }
 
 <h2>Index</h2>
@@ -11,7 +11,29 @@
     <h4>@task.Description</h4>
     <h4>@task.StartDate</h4>
     <h4>@task.Deadline</h4>
-    <h4>@task.Assignee.UserName</h4>
+    {
+        if (task.Assignee != null)
+        {
+            <h4>task.Assignee.UserName</h4>
+        }
+        else
+        {
+            <h4>"Unassigned"</h4>
+        }
+    }
+
+    <form method="post" action="/ProjectTask/Edit/@task.Id">
+        <button class="btn btn-sm btn-success" type="submit">Edit</button>
+    </form>
+    
+    <form method="post" action="/ProjectTask/Show/@task.Id">
+        <button class="btn btn-sm btn-success" type="submit">Show</button>
+    </form>
+
+    <form method="post" action="/ProjectTask/Delete/@task.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button class="btn btn-sm btn-success" type="submit">Delete</button>
+    </form>
 }
 
 <a href="/ProjectTask/Create">Create a new task</a>

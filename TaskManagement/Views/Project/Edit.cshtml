@@ -9,14 +9,12 @@
     @Html.HttpMethodOverride(HttpVerbs.Put)
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.OrganizerId)
-    </br>
-    @Html.Label("Title", "Project Title")
-    </br>
+    <br/>
+    @Html.Label("Title", "Task Title")
+    <br/>
     @Html.EditorFor(m => m.Title)
-    </br></br>
-    @Html.Label("Description", "Project Description")
-    </br>
-    @Html.EditorFor(m => m.Description)
-    </br></br>
+    <br/><br/>
+    @Html.Label("Description", "Task Description")
+    <br/>
     <button class="btn btn-sm btn-success" type="submit">Edit Project</button>
 </form>

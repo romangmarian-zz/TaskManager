@@ -1,0 +1,14 @@
+﻿@model TaskManagement.Models.TaskStatusViewModel
+@{
+    ViewBag.Title = "Update Status";
+}
+<h2>Add Member</h2>
+
+<form method="post" action="/ProjectTask/UpdateStatus">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.LabelFor(m => m.Status)
+    @Html.DropDownListFor(m => m.Status, Model.Statuses)
+    @Html.HiddenFor(m => m.TaskId)
+
+    <button class="btn btn-sm btn-success" type="submit">Update Status</button>
+</form>
