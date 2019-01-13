@@ -243,24 +243,24 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateStatus(TaskStatusViewModel status)
+        public ActionResult UpdateStatus(TaskStatusViewModel statusEdit)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var task = context.Tasks.Find(status.TaskId);
+                    var task = context.Tasks.Find(statusEdit.TaskId);
 
                     if (task.AssigneeID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                     {
                         if (TryUpdateModel(task))
                         {
-                            task.Status = status.Status;
+                            task.Status = statusEdit.Status;
                             context.SaveChanges();
                             TempData["message"] = "Status Updated";
                         }
-                        return RedirectToAction("Show", new { id = status.TaskId });
+                        return RedirectToAction("Show", new { id = statusEdit.TaskId });
                     }
                     else
                     {
@@ -270,12 +270,12 @@ namespace TaskManagement.Controllers
                 }
                 else
                 {
-                    return View(status);
+                    return View(statusEdit);
                 }
             }
             catch (Exception e)
             {
-                return View(status);
+                return View(statusEdit);
             }
         }
     }
