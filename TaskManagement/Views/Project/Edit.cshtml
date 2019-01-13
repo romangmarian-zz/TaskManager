@@ -16,7 +16,8 @@
     </br></br>
     @Html.Label("Description", "Project Description")
     </br>
-    @Html.EditorFor(m => m.Description)
+    @Html.TextBoxFor(m => m.Description, new { style = "height:5vw; width:30vw;" })
     </br></br>
-    <button class="btn btn-sm btn-success" type="submit">Edit Project</button>
+    <button class="btn btn-primary" type="submit">&#x1f44a;Save Changes</button>
+    <button class="btn btn-primary" onclick="window.location='/project/';">&#8592;Projects Dashboard</button>
 </form>
