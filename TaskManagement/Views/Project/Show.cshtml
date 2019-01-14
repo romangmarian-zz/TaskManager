@@ -6,30 +6,70 @@
 <h2>Project Details</h2>
 
 <h3>@Model.Title</h3>
-<h4>@Model.Description</h4>
-<h4>@ViewBag.Organizer</h4>
+@Model.Description
 
-<h4>Tasks</h4>
-@foreach (TaskManagement.Models.ProjectTask task in Model.Tasks)
-{
-    <h5><a href="/ProjectTask/Show/@task.Id">@task.Title</a></h5>
-    <form method="edit" action="/ProjectTask/Edit/@task.Id">
-        <button type="submit">Edit</button>
-    </form>
+<br />
+<br />
+<h3>Tasks Dashboard<a class="btn btn-primary" href="/ProjectTask/Create/@Model.Id" style="float:right;margin-right:10px;">Add Task</a></h3>
 
-    <form method="post" action="/ProjectTask/Delete/@task.Id">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Delete</button>
-    </form>
-    <br/>
-}
-<a class="btn-success" href="/ProjectTask/Create/@Model.Id">Add Task</a>
 
-<h4>Members</h4>
-@foreach (TaskManagement.Models.ApplicationUser member in Model.Members)
-{
-    <h5>@member.UserName</h5>
-}
+<table class="table table-striped">
+    @foreach (TaskManagement.Models.ProjectTask task in Model.Tasks)
+    {
+        <tr>
+            <td>
+                <strong>@task.Title</strong><span class="label label-default" style="margin-left:15px;">@task.Deadline</span>
+                <br />@task.Description
 
-<a class="btn-success" href="/Project/AddMember/@Model.Id">Add Member</a>
+            </td>
+            <td>
+                <form method="edit" action="/ProjectTask/Edit/@task.Id">
+                    <button type="submit" class="btn btn-secondary">Edit Task</button>
+                </form>
+
+                <form method="edit" action="/ProjectTask/Show/@task.Id">
+                    <button type="submit" class="btn btn-secondary">View Task</button>
+                </form>
+                <form method="post" action="/ProjectTask/Delete/@task.Id">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button type="submit" class="btn btn-danger" style="float:left;">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<br />
+
+
+
+<h3>Members<a class="btn btn-primary" href="/ProjectTask/AddMember/@Model.Id" style="float:right;margin-right:10px;">Add Member</a></h3>
+
+<table class="table table-striped">
+
+
+    @foreach (TaskManagement.Models.ApplicationUser member in Model.Members)
+    {
+        <tr>
+            <td>
+                <h5>
+                    @member.UserName
+                    @if (Model.OrganizerId == member.Id)
+                    {
+                        <span class="label label-danger">Organizer</span>
+
+                    }
+                    else
+                    {
+                        <span class="label label-success">Member</span>
+                    }
+                </h5>
+            </td>
+
+        </tr>
+
+    }
+
+</table>
 
