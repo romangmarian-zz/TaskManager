@@ -36,13 +36,23 @@ else
                         {
                             <span class="label label-danger">Organizer</span>
 
+
                         }
                         else
                         {
+                            if (User.IsInRole("Administrator"))
+                            {
+                                    <span class="label label-warning">Administrator</span>
+
+                            }
+                            else
+                            {
                             <span class="label label-success">Member</span>
+
+                                }
+                            }
                         }
-                    }
-                            <strong>@project.Title</strong>
+                    <strong>@project.Title</strong>
                     <br>
                     <br />
                     @project.Description

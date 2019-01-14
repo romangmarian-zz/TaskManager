@@ -13,6 +13,7 @@ namespace TaskManagement.Controllers
         private ApplicationDbContext context = ApplicationDbContext.Create();
         // GET: ProjectTask
         //int id = the id of the event whose tasks we want to view
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Index(int id)
         {
      
@@ -33,6 +34,7 @@ namespace TaskManagement.Controllers
         }
 
         //id = project id
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Create(int id)
         {
             ProjectTask task = new ProjectTask();
@@ -41,6 +43,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Create(ProjectTask task)
         {
             task.Project = context.Projects.Find(task.ProjectId);
@@ -53,7 +56,7 @@ namespace TaskManagement.Controllers
                     context.Tasks.Add(task);
                     context.SaveChanges();
                     TempData["message"] = "Task created";
-                    return RedirectToAction("Index", new { id = task.ProjectId});
+                    return RedirectToAction("Show", "Project", new { id = task.ProjectId});
                 }
                 else
                 {
@@ -67,6 +70,7 @@ namespace TaskManagement.Controllers
         }
 
         //id = task id
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Edit(int id)
         {
             ProjectTask task = context.Tasks.Find(id);
@@ -82,6 +86,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Edit(int id, ProjectTask editedTask)
         {
             try
@@ -100,12 +105,12 @@ namespace TaskManagement.Controllers
                             TempData["message"] = "Task edited successfuly";
                         }
 
-                        return RedirectToAction("Index", new { id = task.Project.Id });
+                        return RedirectToAction("Show","Project", new { id = task.Project.Id });
                     }
                     else
                     {
                         TempData["message"] = "Not authorized to edit tasks";
-                        return RedirectToAction("Index", new { id = task.Project.Id });
+                        return RedirectToAction("Show","Project" , new { id = task.Project.Id });
                     }
                 }
                 else
@@ -121,6 +126,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Delete(int id)
         {
             var task = context.Tasks.Find(id);
@@ -135,7 +141,7 @@ namespace TaskManagement.Controllers
             {
                 TempData["message"] = "Not authorized to modify project";
             }
-            return RedirectToAction("Index", new { id = projId });
+            return RedirectToAction("Show", "Project", new { id = projId });
         }
 
         public ActionResult Show(int id)

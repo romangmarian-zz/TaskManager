@@ -24,17 +24,19 @@
     <button class="btn btn-sm btn-success" type="submit">Update Status</button>
 </form>
 
-<form method="post" action="/ProjectTask/Index/@Model.Project.Id">
-    <button class="btn btn-sm btn-success" type="submit">Index</button>
+
+<form method="post" action="/Project/Show/@Model.ProjectId">
+    <button class="btn btn-sm btn-success" type="submit">Back</button>
+
 </form>
 
 <form method="post" action="/ProjectTask/Edit/@Model.Id">
-    <button class="btn btn-sm btn-success" type="submit">Edit</button>
+    <button class="btn btn-sm btn-success" type="submit">Edit Task</button>
 </form>
 
 <form method="post" action="/ProjectTask/Delete/@Model.Id">
     @Html.HttpMethodOverride(HttpVerbs.Delete)
-    <button class="btn btn-sm btn-success" type="submit">Delete</button>
+    <button class="btn btn-sm btn-success" type="submit">Delete Task</button>
 </form>
 
 @if (Model.AssigneeID == null)
