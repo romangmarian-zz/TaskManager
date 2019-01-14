@@ -11,19 +11,20 @@
     @Html.HiddenFor(m => m.AssigneeID)
     @Html.HiddenFor(m => m.StartDate)
     @Html.HiddenFor(m => m.Status)
-    <br/>
-    @Html.Label("Titile", "Task Title")
-    <br/>
+    <br />
+    @Html.Label("Title", "Task Title")
+    <br />
     @Html.EditorFor(m => m.Title)
-    <br /><br/>
-    @Html.Label("Titile", "Task Title")
+    <br /><br />
+    @Html.Label("Description", "Task Description")
     <br />
     @Html.EditorFor(m => m.Description)
-    <br/><br/>
+    <br /><br />
     @Html.Label("Deadline", "Task Deadline")
-    <br/>
+    <br />
     @Html.EditorFor(m => m.Deadline)
-    <br/><br/>
-    <button class="btn btn-sm btn-success" >Edit Task</button>
+    <br /><br />
+    <button class="btn btn-primary">&#x1f44a;Save Changes</button>
+    <button class="btn btn-primary" onclick="window.location='/project/show/@Model.ProjectId';">&#8592;All Tasks</button>
 
 </form>

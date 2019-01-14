@@ -58,7 +58,7 @@ else
                     @project.Description
                 </td>
                 <td>
-                    @if(project.OrganizerId == ViewBag.UserId){
+                    @if(project.OrganizerId == ViewBag.UserId || User.IsInRole("Administrator")){
                     <div style='display:inline !important;'>
                         <form method="get" action="/Project/Edit/@project.Id">
                             <button type="submit" class="btn btn-secondary">Edit</button>

@@ -152,6 +152,7 @@ namespace TaskManagement.Controllers
             return View(task);
         }
 
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Assign(int id)
         {
             var task = context.Tasks.Find(id);
@@ -171,6 +172,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult Assign(TaskAssigneeViewModel model)
         {
             try
@@ -209,6 +211,7 @@ namespace TaskManagement.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult UpdateStatus(int id)
         {
             var task = context.Tasks.Find(id);
@@ -250,6 +253,7 @@ namespace TaskManagement.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult UpdateStatus(TaskStatusViewModel statusEdit)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);

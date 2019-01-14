@@ -52,6 +52,7 @@ namespace TaskManagement.Controllers
         {
             
             ViewBag.UserId = User.Identity.GetUserId();
+
             var _list = context.Projects.ToList().Where(p =>
             p.Members.Select(m => m.Id).ToList().Contains(ViewBag.UserId) || p.OrganizerId == ViewBag.UserId || User.IsInRole("Administrator"));
             ViewBag.Projects = _list;
@@ -186,6 +187,7 @@ namespace TaskManagement.Controllers
         [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Show(int id)
         {
+            ViewBag.CurrentUserId = User.Identity.GetUserId();
             var project = context.Projects.Find(id);
             return View(project);
         }
@@ -193,6 +195,7 @@ namespace TaskManagement.Controllers
         [Authorize(Roles = "Administrator,Organizator")]
         public ActionResult AddMember(int id)
         {
+             
             var model = new ProjectUsersViewModel
             {
                 ProjectId = id,
