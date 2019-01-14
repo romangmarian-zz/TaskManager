@@ -3,12 +3,13 @@
     ViewBag.Title = "AddMember";
 }
 
-<h2>Add Member</h2>
+<h2>Add Member to Project</h2>
 <form method="post" action="/Project/AddMember">
     @Html.HttpMethodOverride(HttpVerbs.Put)
-    @Html.LabelFor(m => m.SelectedUserId)
+    <span class="badge">Select User</span>
     @Html.DropDownListFor(m => m.SelectedUserId, Model.UsersSelect)
     @Html.HiddenFor(m => m.ProjectId)
-
-    <button class="btn btn-sm btn-success" type="submit">Add Member</button>
+    <br />
+    <br />
+    <button class="btn btn btn-primary" type="submit">Add Member</button>
 </form>

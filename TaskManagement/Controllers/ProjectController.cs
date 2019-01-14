@@ -50,10 +50,10 @@ namespace TaskManagement.Controllers
         [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Index()
         {
-
+            
             ViewBag.UserId = User.Identity.GetUserId();
             var _list = context.Projects.ToList().Where(p =>
-            p.Members.Select(m => m.Id).ToList().Contains(ViewBag.UserId) || p.OrganizerId == ViewBag.UserId);
+            p.Members.Select(m => m.Id).ToList().Contains(ViewBag.UserId) || p.OrganizerId == ViewBag.UserId || User.IsInRole("Administrator"));
             ViewBag.Projects = _list;
             _list = _list.ToList();
 
