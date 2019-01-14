@@ -1,0 +1,16 @@
+﻿@model TaskManagement.Models.Comment
+@{
+    ViewBag.Title = "Edit Comment";
+}
+
+<h2>Edit</h2>
+
+<form method="post" action="/Comment/Edit/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.Label("Message", "Comment Message")
+    <br />
+    @Html.EditorFor(m => m.Message)
+    <br/><br/>
+    <button class="btn btn-sm btn-success type = "submit" >Edit Comment</button>
+
+</form>
