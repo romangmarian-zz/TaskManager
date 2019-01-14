@@ -24,7 +24,7 @@
     <button class="btn btn-sm btn-success" type="submit">Update Status</button>
 </form>
 
-<form method="post" action="/ProjectTask/Index/@Model.ProjectId">
+<form method="post" action="/ProjectTask/Index/@Model.Project.Id">
     <button class="btn btn-sm btn-success" type="submit">Index</button>
 </form>
 
@@ -36,6 +36,13 @@
     @Html.HttpMethodOverride(HttpVerbs.Delete)
     <button class="btn btn-sm btn-success" type="submit">Delete</button>
 </form>
+
+@if (Model.AssigneeID == null)
+{
+<form method="post" action="/ProjectTask/Assign/@Model.Id">
+    <button class="btn btn-sm btn-success" type="submit">Assign</button>
+</form>
+}
 
 @foreach(TaskManagement.Models.Comment comment in Model.Comments)
 {
