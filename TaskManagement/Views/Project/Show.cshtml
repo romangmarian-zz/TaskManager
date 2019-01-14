@@ -12,9 +12,8 @@
 <h4>Tasks</h4>
 @foreach (TaskManagement.Models.ProjectTask task in Model.Tasks)
 {
-    <h5><a href="/Task/Show/@task.Id">@task.Title</a></h5>
-    <form method="post" action="/ProjectTask/Edit/@task.Id">
-        @Html.HttpMethodOverride(HttpVerbs.Put)
+    <h5><a href="/ProjectTask/Show/@task.Id">@task.Title</a></h5>
+    <form method="edit" action="/ProjectTask/Edit/@task.Id">
         <button type="submit">Edit</button>
     </form>
 
