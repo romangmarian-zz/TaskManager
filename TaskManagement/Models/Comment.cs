@@ -17,7 +17,7 @@ namespace TaskManagement.Models
         public string AuthorId { get; set; }
         public virtual ApplicationUser Author { get; set; }
 
-        public string TaskId { get; set; }
+        public int TaskId { get; set; }
         public virtual ProjectTask Task { get; set; }
     }
 }
