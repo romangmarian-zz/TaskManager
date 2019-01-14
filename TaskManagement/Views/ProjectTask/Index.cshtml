@@ -14,7 +14,7 @@
     {
         if (task.Assignee != null)
         {
-            <h4>task.Assignee.UserName</h4>
+            <h4>@task.Assignee.UserName</h4>
         }
         else
         {
@@ -36,5 +36,5 @@
     </form>
 }
 
-<a href="/ProjectTask/Create">Create a new task</a>
+<a href="/ProjectTask/Create/@ViewBag.ProjectId">Create a new task</a>
 

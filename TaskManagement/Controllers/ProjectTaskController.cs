@@ -17,9 +17,9 @@ namespace TaskManagement.Controllers
         public ActionResult Index(int id)
         {
      
-            ViewBag.Tasks = context.Tasks.Include("Assignee");
             ViewBag.ProjectId = id;
             var project = context.Projects.Find(id);
+            ViewBag.Tasks = project.Tasks;
             var projectTitle = context.Projects.Find(id).Title;
             if (project.OrganizerId == User.Identity.GetUserId() || User.IsInRole("Administrator") ||
                 project.Members.Select(m => m.Id).ToList().Contains(User.Identity.GetUserId()))
@@ -148,6 +148,7 @@ namespace TaskManagement.Controllers
         {
             var task = context.Tasks.Find(id);
             ViewBag.ProjectTitle = task.Project.Title;
+            ViewBag.ProjectId = task.Project.Id;
             return View(task);
         }
 
