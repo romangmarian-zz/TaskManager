@@ -15,40 +15,30 @@ namespace TaskManagement.Controllers
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
-        // GET: Comments
-        public ActionResult Index()
-        {
-            var comments = context.Comments.Include(c => c.Author);
-            return View(comments.ToList());
-        }
-
-        // GET: Comments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = context.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
-
         // GET: Comments/Create
         // id == task id
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Create(int id)
         {
-            var comment = new Comment();
-            comment.AuthorId = User.Identity.GetUserId();
-            comment.TaskId = id;
-            return View(comment);
+            var task = context.Tasks.Find(id);
+            if (User.IsInRole("Administrator") || User.Identity.GetUserId() == task.Project.OrganizerId ||
+                task.Project.Members.Select(m => m.Id).ToList().Contains(User.Identity.GetUserId()))
+            {
+                var comment = new Comment();
+                comment.AuthorId = User.Identity.GetUserId();
+                comment.TaskId = id;
+                return View(comment);
+            }
+            else
+            {
+                TempData["message"] = "Only project members can add comments to tasks";
+                return RedirectToAction("Index", "Project");
+            }
         }
 
         // POST: Comments/Create
         [HttpPost]
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Create(Comment comment)
         {
             if (ModelState.IsValid)
@@ -67,6 +57,7 @@ namespace TaskManagement.Controllers
 
         // GET: Comments/Edit/5
         // id == comment id
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Edit(int id)
         {
             var comment = context.Comments.Find(id);
@@ -80,6 +71,7 @@ namespace TaskManagement.Controllers
 
         // POST: Comments/Edit/5
         [HttpPut]
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Edit(int id, Comment editedComment)
         {
             try
@@ -110,6 +102,7 @@ namespace TaskManagement.Controllers
 
         // POST: Comments/Delete/5
         [HttpDelete]
+        [Authorize(Roles = "Administrator,Organizator,User")]
         public ActionResult Delete(int id)
         {
             Comment comment = context.Comments.Find(id);
