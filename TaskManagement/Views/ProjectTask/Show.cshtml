@@ -5,8 +5,9 @@
 
 <h2>@Model.Title</h2>
 <h4>Project: @ViewBag.ProjectTitle</h4>
+<h4>Status: @Model.Status</h4>
 <h4>@Model.Description</h4>
-<h4>@Model.StartDate</h4>
+<h4>Start Date: @Model.StartDate</h4>
 <h4>@Model.Deadline</h4>
     @{
         if (Model.Assignee != null)
