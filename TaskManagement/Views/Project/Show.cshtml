@@ -10,7 +10,8 @@
 
 <br />
 <br />
-<h3>Tasks Dashboard<a class="btn btn-primary" href="/ProjectTask/Create/@Model.Id" style="float:right;margin-right:10px;">Add Task</a></h3>
+
+<h3>Tasks Dashboard<a class="btn btn-primary" href="/ProjectTask/Create/@Model.Id" style="float:right;margin-right:10px;">Add Task 🔨</a></h3>
 
 
 <table class="table table-striped">
@@ -18,22 +19,40 @@
     {
         <tr>
             <td>
-                <strong>@task.Title</strong><span class="label label-default" style="margin-left:15px;">@task.Deadline</span>
+                <strong>📁 @task.Title</strong><span class="label label-default" style="margin-left:15px;">@task.Deadline</span>
                 <br />@task.Description
 
             </td>
-            <td>
-                <form method="edit" action="/ProjectTask/Edit/@task.Id">
-                    <button type="submit" class="btn btn-secondary">Edit Task</button>
-                </form>
 
-                <form method="edit" action="/ProjectTask/Show/@task.Id">
-                    <button type="submit" class="btn btn-secondary">View Task</button>
-                </form>
-                <form method="post" action="/ProjectTask/Delete/@task.Id">
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button type="submit" class="btn btn-danger" style="float:left;">Delete</button>
-                </form>
+            <td>
+
+           <div style="margin-top:20px; margin-right:15px;"><strong>@task.Status</strong></div>
+            </td>
+            <td>
+                @if (Model.OrganizerId == ViewBag.CurrentUserId || User.IsInRole("Administrator"))
+                {
+
+                    <form method="edit" action="/ProjectTask/Edit/@task.Id">
+                        <button type="submit" class="btn btn-secondary">Edit Task</button>
+                    </form>
+
+                    <form method="edit" action="/ProjectTask/Show/@task.Id">
+                        <button type="submit" class="btn btn-secondary">View Task</button>
+                    </form>
+                    <form method="post" action="/ProjectTask/Delete/@task.Id">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="submit" class="btn btn-secondary" style="float:left;">Delete Task</button>
+                    </form>
+                }
+
+                else
+                {
+
+                    <form method="edit" action="/ProjectTask/Show/@task.Id">
+                        <button type="submit" class="btn btn-secondary" style="margin-top:30px;">View Task</button>
+                    </form>
+
+                }
             </td>
         </tr>
     }
@@ -44,7 +63,7 @@
 
 
 
-<h3>Members<a class="btn btn-primary" href="/Project/AddMember/@Model.Id" style="float:right;margin-right:10px;">Add Member</a></h3>
+<h3>Members<a class="btn btn-primary" href="/Project/AddMember/@Model.Id" style="float:right;margin-right:10px;">Add Member 👤</a></h3>
 
 <table class="table table-striped">
 
@@ -54,7 +73,7 @@
         <tr>
             <td>
                 <h5>
-                    @member.UserName
+                    👨 @member.UserName
                     @if (Model.OrganizerId == member.Id)
                     {
                         <span class="label label-danger">Organizer</span>
