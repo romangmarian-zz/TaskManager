@@ -46,11 +46,11 @@
 
 @foreach(TaskManagement.Models.Comment comment in Model.Comments)
 {
-    <h5>comment.Message</h5>
-    <h6>comment.Author.UserName</h6>
-    <h6>comment.PostedAt</h6>
+    <h5>@comment.Message</h5>
+    <h6>@comment.Author.UserName</h6>
+    <h6>@comment.PostedAt</h6>
 
-    <form method="post" action="/Comment/Edit/@comment.Id">
+    <form method="get" action="/Comment/Edit/@comment.Id">
         <button class="btn btn-sm btn-success" type="submit">Edit</button>
     </form>
 
@@ -61,7 +61,7 @@
 }
 
 <br/><br/>
-<form method="post" action="/Comment/Create/@Model.Id">
+<form method="get" action="/Comment/Create/@Model.Id">
     <button class="btn btn-sm btn-success" type="submit">Add Comment</button>
 </form>
 
